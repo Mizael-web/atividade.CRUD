@@ -1,0 +1,14 @@
+### rota de criar encomenda
+
+POST http://localhost:3010/produto
+Content-Type: application/json
+
+{
+    "id": "2",
+    "remetente":" Jose dos anzois '",
+    "destinatario": " Gabriel dos Santos",
+    "loca_atual": " Rua Dr. joao pereira, 270, Ponta negra, Natal/RN",
+    "Previsao_entrega": "25/02/2025"
+}
+
+###
