@@ -1,14 +1,53 @@
 ### rota de criar encomenda
 
-POST http://localhost:3010/produto
+POST http://localhost:3000/Encomenda
 Content-Type: application/json
 
 {
-    "id": "2",
-    "remetente":" Jose dos anzois '",
-    "destinatario": " Gabriel dos Santos",
-    "loca_atual": " Rua Dr. joao pereira, 270, Ponta negra, Natal/RN",
-    "Previsao_entrega": "25/02/2025"
+        "id":" 1",
+        "remetente": "Jose Silva",
+        "destinatario": "Marina Nascimento",
+        "local_atual": "Centro - MG",
+        "Previsao_entrega": "2025-03-23"
+}      
+
+###
+
+### Rota de buscar/listar
+
+GET  http://localhost:3000/Encomenda/
+Content-Type: application/json
+
+###
+
+###  Atualizar encomenda
+PUT http://localhost:3000/Encomenda/1
+Header: Content-Type: application/json
+Corpo:
+
+{ 
+           
+        "remetente": "Ana Souza",
+        "destinatario": "Carlos Mendes",
+        "local_atual": "Centro de Distribuição - RJ"        
 }
 
 ###
+
+### Rota de buscar/listar por id
+
+GET  http://localhost:3000/Encomenda/1
+Content-Type: application/json
+
+###
+
+
+
+
+### rota para deletar
+
+DELETE http://localhost:3000/Encomenda/1
+Content-Type: application/json
+
+###
+
