@@ -1,53 +1,32 @@
-### rota de criar encomenda
-
+### Criar uma nova encomenda (POST)
 POST http://localhost:3000/Encomenda
 Content-Type: application/json
 
 {
-        "id":" 1",
-        "remetente": "Jose Silva",
-        "destinatario": "Marina Nascimento",
-        "local_atual": "Centro - MG",
-        "Previsao_entrega": "2025-03-23"
-}      
-
-###
-
-### Rota de buscar/listar
-
-GET  http://localhost:3000/Encomenda/
-Content-Type: application/json
-
-###
-
-###  Atualizar encomenda
-PUT http://localhost:3000/Encomenda/1
-Header: Content-Type: application/json
-Corpo:
-
-{ 
-           
-        "remetente": "Ana Souza",
-        "destinatario": "Carlos Mendes",
-        "local_atual": "Centro de Distribuição - RJ"        
+  "id": "1",
+  "remetente": "João Silva",
+  "destinatario": "Maria Oliveira",
+  "local_atual": "Centro de Distribuição SP",
+  "Previsao_entrega": "2025-02-25"
 }
 
-###
+### Buscar todas as encomendas (GET)
+GET http://localhost:3000/Encomenda
 
-### Rota de buscar/listar por id
+### Buscar uma encomenda específica pelo ID (GET)
+GET http://localhost:3000/Encomenda/1
 
-GET  http://localhost:3000/Encomenda/1
+### Atualizar uma encomenda pelo ID (PUT)
+PUT http://localhost:3000/Encomenda/1
 Content-Type: application/json
 
-###
+{
+  "local_atual": "Centro de Distribuição RJ",
+  "status": "Em trânsito"
+}
 
-
-
-
-### rota para deletar
-
+### Excluir uma encomenda pelo ID (DELETE)
 DELETE http://localhost:3000/Encomenda/1
-Content-Type: application/json
 
-###
-
+### Buscar novamente para verificar se foi excluído (GET)
+GET http://localhost:3000/Encomenda/1
