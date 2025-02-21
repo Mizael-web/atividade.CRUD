@@ -85,12 +85,12 @@ app.get ("/Encomenda", (requesicao, resposta) => {
             bancoDados[encomendaIndex] = { id, remetente, destinatario, local_atual, previsao_entrega };
     
             // Verifica o status da encomenda e define a mensagem apropriada
-            let mensagem = "Encomenda atualizada em trânsito";
+            let mensagem = "Encomenda  em trânsito";
     
             if (local_atual === "destino") {
-                mensagem = "Encomenda atualizada entregue";
+                mensagem = "Encomenda  entregue";
             } else if (new Date(previsao_entrega) < new Date()) {
-                mensagem = "Encomenda atualilzada em atraso";
+                mensagem = "Encomenda  em atraso";
             }
     
             return resposta.status(200).json({ mensagem });
