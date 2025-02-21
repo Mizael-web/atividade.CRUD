@@ -59,7 +59,7 @@ app.get ("/Encomenda", (requesicao, resposta) => {
           const id = requisicao.params.id;
           const Encomenda = bancoDados.find(elemento => elemento.id == id);
           if (!Encomenda) {
-            return resposta.status(404).json({ mensagem: "Encomenda não encontrado." });
+            return resposta.status(404).json({ mensagem: "Encomenda não encontrada." });
           }
           
           return resposta.status(200).json(Encomenda);
@@ -109,7 +109,7 @@ app.delete('/Encomenda/:id', (requisicao, resposta) => {
     const EncomendaIndex = bancoDados.findIndex(Encomenda => Encomenda.id == id);
   
     if (EncomendaIndex === -1) {
-      return resposta.status(404).json({ mensagem: "Encomenda não encontrado" });
+      return resposta.status(404).json({ mensagem: "Encomenda não encontrada" });
     }
   
     bancoDados.splice(EncomendaIndex, 1);
