@@ -25,7 +25,7 @@ const bancoDados = [];
 app.post ("/Encomenda", (requesicao, resposta) => {
 
     try {
-      
+
         const {id, remetente, destinatario, local_atual, previsao_entrega } = requesicao.body;// extrair os dados da requesição
         const novaEncomenda = { id, remetente, destinatario, local_atual, previsao_entrega};
         
@@ -85,12 +85,12 @@ app.get ("/Encomenda", (requesicao, resposta) => {
             bancoDados[encomendaIndex] = { id, remetente, destinatario, local_atual, previsao_entrega };
     
             // Verifica o status da encomenda e define a mensagem apropriada
-            let mensagem = "Encomenda em trânsito";
+            let mensagem = "Encomenda atualizada em trânsito";
     
             if (local_atual === "destino") {
-                mensagem = "Encomenda entregue";
+                mensagem = "Encomenda atualizada entregue";
             } else if (new Date(previsao_entrega) < new Date()) {
-                mensagem = "Encomenda em atraso";
+                mensagem = "Encomenda atualilzada em atraso";
             }
     
             return resposta.status(200).json({ mensagem });
