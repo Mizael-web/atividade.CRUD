@@ -27,6 +27,11 @@ Content-Type: application/json
   "previsao_entrega": "Encomenda Entregue"
 }
 
+### Buscar todas as encomendas (GET)
+GET http://localhost:3000/Encomenda
+Content-Type: application/json
+
+
 ### Excluir uma encomenda pelo ID (DELETE)
 DELETE http://localhost:3000/Encomenda/1
 Content-Type: application/json
@@ -34,5 +39,10 @@ Content-Type: application/json
 ### Buscar novamente para verificar se foi excluído (GET)
 GET http://localhost:3000/Encomenda/1
 Content-Type: application/json
+
+### Buscar todas as encomendas (GET)
+GET http://localhost:3000/Encomenda
+Content-Type: application/json
+
 
 ###
