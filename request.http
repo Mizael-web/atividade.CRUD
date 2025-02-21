@@ -7,14 +7,16 @@ Content-Type: application/json
   "remetente": "João Silva",
   "destinatario": "Maria Oliveira",
   "local_atual": "Centro de Distribuição SP",
-  "Previsao_entrega": "2025-02-25"
+  "previsao_entrega": "2025-02-25"
 }
 
 ### Buscar todas as encomendas (GET)
 GET http://localhost:3000/Encomenda
+Content-Type: application/json
 
 ### Buscar uma encomenda específica pelo ID (GET)
 GET http://localhost:3000/Encomenda/1
+Content-Type: application/json
 
 ### Atualizar uma encomenda pelo ID (PUT)
 PUT http://localhost:3000/Encomenda/1
@@ -27,6 +29,10 @@ Content-Type: application/json
 
 ### Excluir uma encomenda pelo ID (DELETE)
 DELETE http://localhost:3000/Encomenda/1
+Content-Type: application/json
 
 ### Buscar novamente para verificar se foi excluído (GET)
 GET http://localhost:3000/Encomenda/1
+Content-Type: application/json
+
+###
