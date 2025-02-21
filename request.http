@@ -24,7 +24,7 @@ Content-Type: application/json
 
 {
   "local_atual": "Centro de Distribuição RJ",
-  "status": "Em trânsito"
+  "previsao_entrega": "Encomenda Entregue"
 }
 
 ### Excluir uma encomenda pelo ID (DELETE)

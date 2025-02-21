@@ -23,7 +23,9 @@ const bancoDados = [];
 
 // criar um cadastro de encomendas
 app.post ("/Encomenda", (requesicao, resposta) => {
+
     try {
+      
         const {id, remetente, destinatario, local_atual, previsao_entrega } = requesicao.body;// extrair os dados da requesição
         const novaEncomenda = { id, remetente, destinatario, local_atual, previsao_entrega};
         
