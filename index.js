@@ -11,7 +11,7 @@ const dotenv = require ("dotenv");
 //configurando a biblioteca env/variavel de ambiente
 dotenv.config ();
 
-// Meddleware para permitir o uso do json
+// Meddleware para permitir que o express uso do json
 app.use(express.json());
 
 
@@ -21,7 +21,7 @@ const port = process.env.PORTA;
 // simulando o banco de dados
 const bancoDados = [];
 
-// criar um cadastro de encomendas
+// criar Rota de cadastro de encomendas
 app.post ("/Encomenda", (requesicao, resposta) => {
 
     try {
@@ -46,54 +46,56 @@ app.post ("/Encomenda", (requesicao, resposta) => {
 
 });
 
-// listar/buscar encomendas no banco de dados
-app.get ("/Encomenda", (requesicao, resposta) => {
-    return resposta.status(200).json (
-    bancoDados    
-   );
-   });
+// listar/buscar encomendas no banco de dados 
+app.get("/encomenda", (requisicao, resposta) => {
+  // Verifica se bancoDados é um array e tem encomendas
+  if (!Array.isArray(bancoDados) || bancoDados.length === 0) {
+    return resposta.status(404).json({ mensagem: "Encomenda não encontrada." });
+  }
+
+  // Retorna as encomendas
+  return resposta.status(200).json(bancoDados);
+});
+
 
       // listar encomendas pela id
-      app.get('/Encomenda/:id', (requisicao, resposta) => {
+      app.get('/encomenda/:id', (requisicao, resposta) => {
         try {
           const id = requisicao.params.id;
-          const Encomenda = bancoDados.find(elemento => elemento.id == id);
-          if (!Encomenda) {
+          const encomenda = bancoDados.find(elemento => elemento.id == id);
+          if (!encomenda) {
             return resposta.status(404).json({ mensagem: "Encomenda não encontrada." });
           }
           
-          return resposta.status(200).json(Encomenda);
+          return resposta.status(200).json(encomenda);
         } catch (error) {
           return resposta.status(500).json({ mensagem: "Erro ao buscar Encomenda.", erro: error.message });
         }
       });
     
-    // Rota PUT - Atualiza um produto pelo ID
-    app.put('/Encomenda/:id', (requisicao, resposta) => {
+    // Rota PUT - Atualiza um produto pelo ID 
+    app.put('/encomenda/:id', (requisicao, resposta) => {
         try {
             const id = requisicao.params.id; // Mantendo o ID como string
-            const { remetente, destinatario, local_atual, previsao_entrega } = requisicao.body;
+            const { novoRemetente, novoDestinatario, novoLocal_atual, novaPrevisao_entrega } = requisicao.body;
     
             // Busca pelo ID sem conversão para número
-            const encomendaIndex = bancoDados.findIndex(encomenda => encomenda.id === id);
+            const encomendaIndex = bancoDados.find(encomenda => encomenda.id === id);
     
             if (encomendaIndex === -1) {
                 return resposta.status(404).json({ mensagem: "Encomenda não encontrada" });
             }
     
             // Atualiza os dados da encomenda encontrada
-            bancoDados[encomendaIndex] = { id, remetente, destinatario, local_atual, previsao_entrega };
+            // bancoDados[encomendaIndex] = { id, remetente, destinatario, local_atual, previsao_entrega };
+            encomendaIndex.remetente = novoRemetente
+            encomendaIndex.destinatario = novoDestinatario
+            encomendaIndex.local_atual = novoLocal_atual
+            encomendaIndex.previsao_entrega = novaPrevisao_entrega
     
             // Verifica o status da encomenda e define a mensagem apropriada
-            let mensagem = "Encomenda  em trânsito";
-    
-            if (local_atual === "destino") {
-                mensagem = "Encomenda  entregue";
-            } else if (new Date(previsao_entrega) < new Date()) {
-                mensagem = "Encomenda  em atraso";
-            }
-    
-            return resposta.status(200).json({ mensagem });
+            
+            return resposta.status(200).json({ mensagem: " Encomenda atualizada com sucesso!" });
     
         } catch (erro) {
             console.error("Erro ao atualizar Encomenda:", erro);
@@ -104,15 +106,15 @@ app.get ("/Encomenda", (requesicao, resposta) => {
 
  
        // Rota DELETE - Remove um produto pelo ID
-app.delete('/Encomenda/:id', (requisicao, resposta) => {
+app.delete('/encomenda/:id', (requisicao, resposta) => {
     const { id } = requisicao.params;
-    const EncomendaIndex = bancoDados.findIndex(Encomenda => Encomenda.id == id);
+    const encomendaIndex = bancoDados.findIndex(encomenda => encomenda.id == id);
   
-    if (EncomendaIndex === -1) {
+    if (encomendaIndex === -1) {
       return resposta.status(404).json({ mensagem: "Encomenda não encontrada" });
     }
   
-    bancoDados.splice(EncomendaIndex, 1);
+    bancoDados.splice(encomendaIndex, 1);
     resposta.json({ mensagem: "Encomenda removido com sucesso" });
   });
   
@@ -120,23 +122,3 @@ app.delete('/Encomenda/:id', (requisicao, resposta) => {
   app.listen(port, () => {
     console.log(`Servidor rodando na porta ${port}`);
   });
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
