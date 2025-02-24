@@ -36,10 +36,6 @@ Content-Type: application/json
 DELETE http://localhost:3000/encomenda/1
 Content-Type: application/json
 
-### Buscar novamente para verificar se foi excluído (GET)
-GET http://localhost:3000/encomenda/1
-Content-Type: application/json
-
 ### Buscar todas as encomendas (GET)
 GET http://localhost:3000/encomenda
 Content-Type: application/json
