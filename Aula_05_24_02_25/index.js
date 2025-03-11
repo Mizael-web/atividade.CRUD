@@ -1,100 +1,104 @@
-// Importando com (commonjs)
 const express = require("express");
-const { pool } = require('./src/config/database');
+const { pool } = require("./src/config/conexao");
 const dotenv = require("dotenv");
 dotenv.config();
 
-const port = process.env.PORTA;
+const port = process.env.PORT || 3001;
 const app = express();
 
-// Aplicação use express como json(javascript object notation)
+// Middleware para permitir JSON e formulários
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-app.get("/encomenda" (requisicao, resposta) => {
-  // tratamento de exceções
+// Rota GET: Listar todas as encomendas
+app.get("/db_encomenda", async (req, res) => {
   try {
-    const consulta = `select * from produto`
-    const encomenda = await pool.query(consulta)
-    if (endomenda.rows.length === 0) {
-      return resposta.status(200).json({mensagem: "Banco de dados vazio"});
+    const consulta = `SELECT * FROM db_encomenda`;
+    const { rows } = await pool.query(consulta);
+
+    if (rows.length === 0) {
+      return res.status(200).json({ mensagem: "Banco de dados vazio" });
     }
-    resposta.status(200).json(encomenda.rows);
+    res.status(200).json(rows);
   } catch (error) {
-    resposta.status(500).json({
-      mensagem: "Erro ao buscar Endomenda",
-      erro: error.message
-    });
+    res.status(500).json({ mensagem: "Erro ao buscar encomendas", erro: error.message });
   }
 });
 
-app.post("/encomenda", asynce (requisicao, resposta) => {
+// Rota POST: Criar uma nova encomenda
+app.post("/db_encomenda", async (req, res) => {
   try {
-    const {  id, remetente, destinatario, local_atual, previsao_entrega ;
-    if (!id || !remetente || !destinatario || !local_atual || !previsao_entrega )
-      return resposta.status(200).json({
-        mensagem: "Todos os dados devem ser preenchidos!",
-      });
+    const { remetente, destinatario, local_atual, previsao_entrega } = req.body;
+
+    if (!remetente || !destinatario || !local_atual || !previsao_entrega) {
+      return res.status(400).json({ mensagem: "Todos os campos são obrigatórios!" });
     }
-    const novoProduto = [id, remetente, destinatario, local_atual, previsao_entrega];
-    const consulta = `insert into produto(nome, preco, quantidade) 
-                        values ($1, $2, $3) returning *`
-    await pool.query(consulta, novoProduto)
-    resposta.status(201).json({ mensagem: "Encomenda criada com sucesso" });
+
+    const consulta = `INSERT INTO db_encomenda (remetente, destinatario, local_atual, previsao_entrega) 
+                      VALUES ($1, $2, $3, $4) RETURNING *`;
+
+    const { rows } = await pool.query(consulta, [remetente, destinatario, local_atual, previsao_entrega]);
+
+    res.status(201).json({ mensagem: "Encomenda criada com sucesso", encomenda: rows[0] });
   } catch (error) {
-    resposta.status(500).json({
-      mensagem: "Erro ao cadastrar Encomenda",
-      erro: error.message,
-    });
+    res.status(500).json({ mensagem: "Erro ao cadastrar encomenda", erro: error.message });
   }
 });
 
-app.put("/encomenda/:id", async (requisicao, resposta) => {
+// Rota DELETE: Excluir uma encomenda por ID
+app.delete("/db_encomenda/:id", async (req, res) => {
   try {
-    // localhost:3000/produtos/1
-    const id = requisicao.params.id;
-    const { novoRemetente, novoDestinatario , novoLocal_atual, novaPrevisao_entrega } = requisicao.body;
-    if (!id) {
-      return resposta.status(404).json({ mensagem: "Informe um paramentro!" });
+    const id = req.params.id;
+
+    const consulta = `DELETE FROM db_encomenda WHERE id = $1 RETURNING *`;
+    const { rows } = await pool.query(consulta, [id]);
+
+    if (rows.length === 0) {
+      return res.status(404).json({ mensagem: "Encomenda não encontrada" });
     }
-    const parametro = [id]
-    const consulta1 = `select * from produto where id = $1`
-    const resultado1 = await pool.query(consulta1, parametro)
-    if (resultado1.rows.length === 0) {
-      return resposta.status(404).json({ mensagem: " Encomenda não encotrada!" });
-    }
-    const dados = [id, novoRemetente, novoDestinatario , novoLocal_atual, novaPrevisao_entrega]
-    const consulta2 = `update produto set nome = $2, preco = $3, 
-                    quantidade = $4 where id = $1 returning *`
-    await pool.query(consulta2, dados)
-    resposta.status(200).json({ mensagem: "Encomenda atualizado com sucesso!" });
+
+    res.status(200).json({ mensagem: "Encomenda deletada com sucesso" });
   } catch (error) {
-    resposta.status(500).json({
-      mensagem: "Erro ao editar Endomenda",
-      erro: error.message
-    });
+    res.status(500).json({ mensagem: "Erro ao excluir encomenda", erro: error.message });
   }
 });
 
-app.delete("/encomenda/:id", async (requisicao, resposta) => {
+// Rota GET: Buscar encomenda por ID
+app.get("/db_encomenda/:id", async (req, res) => {
   try {
-    const id = requisicao.params.id;
-    const parametro = [id]
-    const consulta1 = `select * from produto where id = $1`
-    const resultado1 = await pool.query(consulta1, parametro)
-    if (resultado1.rows.length === 0) {
-      return resposta.status(404).json({ mensagem: "Encomenda não encontrada" });
+    const id = req.params.id;
+
+    const consulta = `SELECT * FROM db_encomenda WHERE id = $1`;
+    const { rows } = await pool.query(consulta, [id]);
+
+    if (rows.length === 0) {
+      return res.status(404).json({ mensagem: "Encomenda não encontrada" });
     }
-    
-    
-    resposta.status(200).json({ mensagem: "Encomenda deletada com sucesso" });
+
+    res.status(200).json(rows[0]);
   } catch (error) {
-    resposta.status(500).json({
-      mensagem: "Erro ao excluir Encomenda",
-      erro: error.message
-    });
+    res.status(500).json({ mensagem: "Erro ao buscar encomenda", erro: error.message });
   }
 });
 
+// Rota DELETE: Excluir todas as encomendas
+app.delete("/db_encomenda", async (req, res) => {
+  try {
+    // Verificar se há encomendas antes de deletar
+    const consultaVerifica = `SELECT * FROM db_encomenda`;
+    const { rows } = await pool.query(consultaVerifica);
+    if (rows.length === 0) {
+      return res.status(404).json({ mensagem: "Nenhuma encomenda para excluir" });
+    }
+
+    await pool.query(`DELETE FROM db_encomenda`);
+    res.status(200).json({ mensagem: "Todas as encomendas foram excluídas!" });
+  } catch (error) {
+    res.status(500).json({ mensagem: "Erro ao deletar encomendas", erro: error.message });
+  }
+});
+
+// Iniciando o servidor
 app.listen(port, () => {
   console.log(`Servidor rodando em http://localhost:${port}`);
 });
