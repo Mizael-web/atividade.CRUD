@@ -1,6 +1,6 @@
 const { Pool } = require ('pg');
-const {dotenv} = require ('dotenv');
-require('dotenv').config();
+const dotenv = require ('dotenv');
+dotenv.config();
 
 
 // convenção
