@@ -3,7 +3,7 @@ POST http://localhost:3001/encomenda
 Content-Type: application/json
 
 {
-  "id": "1",
+  "id": "2",
   "remetente": "João Silva",
   "destinatario": "Maria Oliveira",
   "local_atual": "Centro de Distribuição SP",
@@ -19,7 +19,7 @@ GET http://localhost:3001/encomenda/2
 Content-Type: application/json
 
 ### Atualizar uma encomenda pelo ID (PUT)
-PUT http://localhost:3001/encomenda/2
+PUT http://localhost:3001/encomenda/3
 Content-Type: application/json
 
 {
@@ -33,7 +33,7 @@ Content-Type: application/json
 
 
 ### Excluir uma encomenda pelo ID (DELETE)
-DELETE http://localhost:3001/encomenda/2
+DELETE http://localhost:3001/encomenda/7
 Content-Type: application/json
 
 ### Buscar todas as encomendas (GET)
