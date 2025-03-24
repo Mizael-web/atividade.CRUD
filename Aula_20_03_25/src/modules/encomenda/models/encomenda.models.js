@@ -1,46 +1,44 @@
 const {pool}= require ("../../../config/database")
 
 
-class  AlunoModel {
+class  EncomendaModel {
 
-   static async criar(matricula, nome, email, senha){
-       const dados = [matricula, nome, email, senha]
-       const consulta = `insert into aluno (matricula, nome, email, senha) values ( $1, $2, $3, $4) returning *`
-       const novoAluno = await pool.query(consulta, dados)
-       return novoAluno.rows    
+   static async criar(id, remetente, destinatario, local_atual, previsao_entrega){
+       const dados = [id, remetente, destinatario, local_atual, previsao_entrega]
+       const consulta = `insert into encomenda(id, remetente, destinatario, local_atual, previsao_entrega) values ( $1, $2, $3, $4, $5) returning *`
+       const novaEncomenda = await pool.query(consulta, dados)
+       return novaEncomenda.rows    
 
    }
-   static async editar(matricula, nome, email, senha){
-       const dados = [matricula, nome, email, senha]
-       const consulta = `update aluno set  nome=$2, email=$3, senha=$4 where matricula = $1 returning *`
+   static async editar(id, remetente, destinatario, local_atual, previsao_entrega){
+       const dados = [id, remetente, destinatario, local_atual, previsao_entrega]
+       const consulta = `update encomenda set  remetente=$2, destinatario=$3, local_atual=$4, previsao_entrega=$5 where id = $1 returning *`
        const alunoAtualizado = await pool.query(consulta, dados)
        return alunoAtualizado.rows    
 
    }
-   static async listar (){
+   static async listarTodos (){
       const consulta =`select * from aluno`
       const aluno = await pool.query(consulta)
       return aluno.rows
 
    }
-   static async listarPorMatricula(matricula){
-    const dados = [matricula]
-    const consulta =`select * from aluno where matricula = $1`
-    const aluno = await pool.query(consulta, dados)
-    return aluno.rows
-
+   static async listarPorId(id){
+    const dados = [id]
+    const consulta =`select * from aluno where id = $1`
+    const endomenda = await pool.query(consulta, dados)    
    }
 
-   static async excluirPorMatricula(matricula){   
-   const dados = [matricula]
-   const consulta = `delete from aluno where matricula =$1`
+   static async excluirPorId(id){   
+   const dados = [id]
+   const consulta = `delete from aluno where id =$1`
    await pool.query(consulta, dados)
    }
 
    static async excluirTodos(){
-      const consulta = `delete from aluno`
+      const consulta = `delete from encomenda`
       await pool.query(consulta)
 
    }
 }
- module.exports = AlunoModel
+ module.exports = EncomendaModel

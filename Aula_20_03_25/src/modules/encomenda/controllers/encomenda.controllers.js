@@ -5,7 +5,6 @@ class EncomendaController {
 
     static async criar(requesicao, resposta) {
         try {
-
             const {id, remetente, destinatario, local_atual, previsao_entrega } = requesicao.body
             if (!id || !remetente || !destinatario || !local_atual || !previsao_entrega)
                 return resposta.status(200).json({ mensagem: " todos os campos devem ser preenchidos" })
