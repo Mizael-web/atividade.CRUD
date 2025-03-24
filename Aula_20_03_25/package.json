@@ -2,9 +2,15 @@
   "dependencies": {
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
+<<<<<<< HEAD
     "modules": "^0.4.0",
     "node": "^23.9.0",
     "pg": "^8.14.1",
     "react-router-dom": "^7.4.0"
+=======
+    "module": "^1.2.5",
+    "node": "^20.19.0",
+    "pg": "^8.14.1"
+>>>>>>> 820fe92d3eae7c8848937d2d999cbbcfe08053f4
   }
 }

@@ -36,6 +36,10 @@ class EncomendaModel {
         const dados = [id];
         const consulta = `DELETE FROM encomenda WHERE id = $1 RETURNING *`;
         await pool.query(consulta, dados);
+<<<<<<< HEAD
+=======
+        return encomendaExcluida.rows;
+>>>>>>> 820fe92d3eae7c8848937d2d999cbbcfe08053f4
     }
 
     static async excluirTodos() {
@@ -44,4 +48,8 @@ class EncomendaModel {
     }
 }
 
+<<<<<<< HEAD
 module.exports = EncomendaModel;
+=======
+module.exports = EncomendaModel;
+>>>>>>> 820fe92d3eae7c8848937d2d999cbbcfe08053f4
