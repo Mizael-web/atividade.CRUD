@@ -1,20 +1,20 @@
 const express = require ( "express")
-const AlunoController = require ("../controllers/alunoControllers")
+const EncomendaController = require ("../controllers/encomenda.controllers")
 
 
 const router = express.Router()
 
-router.get ("/aluno", AlunoController.listarTodos)
+router.get ("/encomenda", EncomendaController.listarTodos)
 
-router.post ("/aluno", AlunoController.criar)
+router.post ("/encomenda", EncomendaController.criar)
 
-router.put("/aluno/:matricula", AlunoController.editar)
+router.put("/encomenda/:id", EncomendaController.editar)
 
-router.get ("/aluno/:matricula", AlunoController.listarPorMatricula)
+router.get ("/encomenda/:id", EncomendaController.listarPorId)
 
-router.delete("/aluno/:matricula",AlunoController.excluirPorMatricula)
+router.delete("/encomenda/:id", EncomendaController.excluirPorId)
 
-router.delete("/aluno",AlunoController.excluirTodos)
+router.delete("/encomenda", EncomendaController.excluirTodos)
 
 module.exports = router
 

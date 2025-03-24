@@ -1,46 +1,46 @@
 const EncomendaModel = require("../models/encomenda.models")
 
 // get =listar, post = criar, put=atualizar, delete = excluir
-class AlunoController {
+class EncomendaController {
 
     static async criar(requesicao, resposta) {
         try {
 
             const {id, remetente, destinatario, local_atual, previsao_entrega } = requesicao.body
-            if (!id || !remetente || !destinatario || !local_atual || previsao_entrega)
+            if (!id || !remetente || !destinatario || !local_atual || !previsao_entrega)
                 return resposta.status(200).json({ mensagem: " todos os campos devem ser preenchidos" })
 
-            const novaEncomenda= await encomendaModel.criar(id, remetente, destinatario, local_atual, previsao_entrega)
-            resposta.status(201).json({ mensagem: "Aluno criado com sucesso", encomenda: novoEncomenda })
+            const novaEncomenda= await EncomendaModel.criar(id, remetente, destinatario, local_atual, previsao_entrega)
+            resposta.status(201).json({ mensagem: "Encomenda criada com sucesso", encomenda: novaEncomenda })
 
         } catch (error) {
-            resposta.status(500).json({ mensagem: "Erro ao criar o aluno!, erro: error.message", erro: error.message})
+            resposta.status(500).json({ mensagem: "Erro ao criar a Encomenda!", erro: error.message})
         }
     }
 
 
     static async editar(requisicao, resposta) {
-        //http://localhost:3000/aluno/
+        //http://localhost:3000/encomenda/
         try {
-            const matricula = requisicao.params.matricula;
-            const {nome, email, senha } = requisicao.body;
-            if (!nome || !email || !senha) {
+            const id = requisicao.params.id;
+            const {remetente, destinatario, local_atual, previsao_entrega } = requisicao.body;
+            if (!id || !remetente || !destinatario || !local_atual || !previsao_entrega) {
                 return resposta.status(400).json(
                     { mensagem: "todos os campos devem ser preenchidos!" });
             }
-            const aluno = await AlunoModel.editar(matricula, nome, email, senha);
-            if (aluno.length === 0) {
+            const encomenda = await EncomendaModel.editar(id, remetente, destinatario, local_atual, previsao_entrega );
+            if (encomenda.length === 0) {
                 return resposta.status(400).json(
-                    { mensagem: "Aluno não encontrado !" });
+                    { mensagem: "Encomenda não encontrada!" });
             }
             resposta.status(200).json(
                 {
-                    mensagem: "Aluno atualizado com sucesso", aluno: aluno
+                    mensagem: "Encomenda atualizada com sucesso", encomenda: encomenda
                 });
         } catch (error) {
             resposta.status(500).json(
                 {
-                    mensagem: "Erro ao editar o aluno!", erro: error.message
+                    mensagem: "Erro ao editar a Encomenda!", erro: error.message
                 });
         }
     }
@@ -49,27 +49,27 @@ class AlunoController {
     static async listarTodos(requisicao, resposta) {
 
         try {
-            const alunos = await AlunoModel.listar()
-            if (alunos.length === 0) {
-                return resposta.status(400).json({ mensagem: "Não existe alunos a serem exibidos!"})
+            const encomenda = await EncomendaModel.listarTodos()
+            if (encomenda.length === 0) {
+                return resposta.status(400).json({ mensagem: "Não existe encomenda a serem exibidos!"})
             }
-            resposta.status(200).json(alunos)
+            resposta.status(200).json(encomenda)
         } catch (error) {
-            resposta.status(500).json({ mensagem: "Erro ao listar os alunos!", erro: error.message})
+            resposta.status(500).json({ mensagem: "Erro ao listar as encomendas!", erro: error.message})
         }
     }
 
-    static async listarPorMatricula(requesicao, resposta) {
+    static async listarPorId(requesicao, resposta) {
         try {
-            const matricula = requesicao.params.matricula
-            const aluno = await AlunoModel.listarPorMatricula(matricula)
-            if (aluno.length === 0) {
-                return resposta.status(201).json({ menssagem: "Aluno não encontrado!"})
+            const id = requesicao.params.id
+            const aluno = await EncomendaModel.listarPorMatricula(id)
+            if (endomenda.length === 0) {
+                return resposta.status(201).json({ menssagem: "Encomenda não encontrada!"})
             }
             resposta.status(200).json(aluno)
 
         } catch (error) {
-            resposta.status(500).json({ mensagem: "Erro ao listar o aluno!", erro: error.message})
+            resposta.status(500).json({ mensagem: "Erro ao listar a encomenda!", erro: error.message})
 
         }
     }
@@ -77,26 +77,26 @@ class AlunoController {
 
     static async excluirTodos(requisicao, resposta) {
         try {
-            await AlunoModel.excluirTodos();
-            resposta.status(200).json({ mensagem: "Todos os alunos foram excluídos com sucesso!" });
+            await EncomendaModel.excluirTodos();
+            resposta.status(200).json({ mensagem: "Todas as encomendas foram excluídos com sucesso!" });
         } catch (error) {
-            resposta.status(500).json({ mensagem: "Erro ao excluir todos os alunos!", erro: error.message});
+            resposta.status(500).json({ mensagem: "Erro ao excluir todas as encomendas!", erro: error.message});
         }
     }
 
-    static async excluirPorMatricula(requisicao, resposta) {
+    static async excluirPorId(requisicao, resposta) {
         try {
-            const matricula = requisicao.params.matricula;
-            const aluno = await AlunoModel.listarPorMatricula(matricula);
-            if (aluno.length === 0) {
-                return resposta.status(400).json({ mensagem: "Aluno não encontrado!" });
+            const id = requisicao.params.id;
+            const encomenda = await EncomendaModel.listarPorId(id);
+            if (encomenda.length === 0) {
+                return resposta.status(400).json({ mensagem: "Encomenda não encontrada!" });
             }
-            await AlunoModel.excluirPorMatricula(matricula)
-            resposta.status(200).json({ mensagem: "Aluno excluído com sucesso!" });
+            await EncomendaModel.excluirPorId(id)
+            resposta.status(200).json({ mensagem: "Encomenda excluída com sucesso!" });
         } catch (error) {
-            resposta.status(500).json({ mensagem: "Erro ao excluir o aluno!", erro: error.message });
+            resposta.status(500).json({ mensagem: "Erro ao excluir o encomenda!", erro: error.message });
         }
     }
 }
 
-module.exports = AlunoController
+module.exports = EncomendaController
