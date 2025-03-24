@@ -1,55 +1,46 @@
-const pool = require("../../../config/database");
+const {pool}= require ("../../../config/database")
 
-class EncomendaModel {
-    
-    static async criar(id, remetente, destinatario, local_atual, previsao_entrega) {
-        const dados = [id, remetente, destinatario, local_atual, previsao_entrega];
-        const consulta = `INSERT INTO encomenda (id, remetente, destinatario, local_atual, previsao_entrega) 
-            VALUES ($1, $2, $3, $4, $5)  RETURNING *`;
-        const novaEncomenda = await pool.query(consulta, dados);
-        return novaEncomenda.rows;
-    }
 
-    static async editar(id, remetente, destinatario, local_atual, previsao_entrega) {
-        const dados = [id, remetente, destinatario, local_atual, previsao_entrega];
-        const consulta = `
-            UPDATE encomenda SET remetente = $2, destinatario = $3, local_atual = $4, previsao_entrega = $5 
-            WHERE id = $1 RETURNING *`;
-        const encomendaAtualizada = await pool.query(consulta, dados);
-        return encomendaAtualizada.rows;
-    }
+class  AlunoModel {
 
-    static async listarTodos() {
-        const consulta = `SELECT * FROM encomenda`;
-        const encomenda = await pool.query(consulta);
-        return encomenda.rows;
-    }
+   static async criar(matricula, nome, email, senha){
+       const dados = [matricula, nome, email, senha]
+       const consulta = `insert into aluno (matricula, nome, email, senha) values ( $1, $2, $3, $4) returning *`
+       const novoAluno = await pool.query(consulta, dados)
+       return novoAluno.rows    
 
-    static async listarPorId(id) {
-        const dados = [id];
-        const consulta = `SELECT * FROM encomenda WHERE id = $1`;
-        const encomenda = await pool.query(consulta, dados);
-        return encomenda.rows;
-    }
+   }
+   static async editar(matricula, nome, email, senha){
+       const dados = [matricula, nome, email, senha]
+       const consulta = `update aluno set  nome=$2, email=$3, senha=$4 where matricula = $1 returning *`
+       const alunoAtualizado = await pool.query(consulta, dados)
+       return alunoAtualizado.rows    
 
-    static async excluirPorId(id) {
-        const dados = [id];
-        const consulta = `DELETE FROM encomenda WHERE id = $1 RETURNING *`;
-        await pool.query(consulta, dados);
-<<<<<<< HEAD
-=======
-        return encomendaExcluida.rows;
->>>>>>> 820fe92d3eae7c8848937d2d999cbbcfe08053f4
-    }
+   }
+   static async listar (){
+      const consulta =`select * from aluno`
+      const aluno = await pool.query(consulta)
+      return aluno.rows
 
-    static async excluirTodos() {
-        const consulta = `DELETE FROM encomenda`;
-        await pool.query(consulta);
-    }
+   }
+   static async listarPorMatricula(matricula){
+    const dados = [matricula]
+    const consulta =`select * from aluno where matricula = $1`
+    const aluno = await pool.query(consulta, dados)
+    return aluno.rows
+
+   }
+
+   static async excluirPorMatricula(matricula){   
+   const dados = [matricula]
+   const consulta = `delete from aluno where matricula =$1`
+   await pool.query(consulta, dados)
+   }
+
+   static async excluirTodos(){
+      const consulta = `delete from aluno`
+      await pool.query(consulta)
+
+   }
 }
-
-<<<<<<< HEAD
-module.exports = EncomendaModel;
-=======
-module.exports = EncomendaModel;
->>>>>>> 820fe92d3eae7c8848937d2d999cbbcfe08053f4
+ module.exports = AlunoModel

@@ -13,8 +13,5 @@ const pool = new Pool ({
 
 })
 
-<<<<<<< HEAD
+
 module.exports = pool;
-=======
-module.exports = pool;
->>>>>>> 820fe92d3eae7c8848937d2d999cbbcfe08053f4
