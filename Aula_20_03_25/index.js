@@ -1,7 +1,7 @@
-// importando com commonjs
+
 const express = require ("express");
 const dotenv  = require ("dotenv");
-const alunoRoutes = require('./src/modules/aluno/routes/aluno')
+const encomendaRoutes = require('./src/modules/encomenda/routes/encomenda.rout');
 
 // configurando a biblioteca dotenv
 dotenv.config();
@@ -14,12 +14,13 @@ const app = express();// instanciando um apolicação
 app.use(express.json());
 
 
-// /aluno/matricula
-// /alunos
+
+//encomenda/id
+//encomenda
 
 
 // concatenação das rotas com o api
-app.use(alunoRoutes)
+app.use(encomendaRoutes)
 
 
   

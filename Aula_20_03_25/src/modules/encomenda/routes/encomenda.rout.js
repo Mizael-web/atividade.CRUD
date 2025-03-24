@@ -1,23 +1,13 @@
-const express = require ( "express")
-const AlunoController = require ("../controllers/alunoControllers")
+const express = require("express");
+const EncomendaController = require("../controllers/encomenda.controllers");
 
+const router = express.Router();
 
-const router = express.Router()
+router.get("/encomenda",EncomendaController.listarTodos);
+router.post("/encomenda",EncomendaController.criar);
+router.put("/encomenda/:id",EncomendaController.editar);
+router.get("/encomenda/:id",EncomendaController.listarPorId);
+router.delete("/encomenda/:id",EncomendaController.excluirPorId);
+router.delete("/encomenda",EncomendaController.excluirTodos); // Corrigido para excluirTodos()
 
-router.get ("/aluno", AlunoController.listarTodos)
-
-router.post ("/aluno", AlunoController.criar)
-
-router.put("/aluno/:matricula", AlunoController.editar)
-
-router.get ("/aluno/:matricula", AlunoController.listarPorMatricula)
-
-router.delete("/aluno/:matricula",AlunoController.excluirPorMatricula)
-
-router.delete("/aluno",AlunoController.excluirTodos)
-
-module.exports = router
-
-
-
-
+module.exports = router;
