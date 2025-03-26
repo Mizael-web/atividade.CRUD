@@ -18,20 +18,20 @@ class  EncomendaModel {
 
    }
    static async listarTodos (){
-      const consulta =`select * from aluno`
+      const consulta =`select * from encomenda`
       const aluno = await pool.query(consulta)
       return aluno.rows
 
    }
    static async listarPorId(id){
     const dados = [id]
-    const consulta =`select * from aluno where id = $1`
+    const consulta =`select * from encomenda where id = $1`
     const endomenda = await pool.query(consulta, dados)    
    }
 
    static async excluirPorId(id){   
    const dados = [id]
-   const consulta = `delete from aluno where id =$1`
+   const consulta = `delete from encomenda where id =$1`
    await pool.query(consulta, dados)
    }
 

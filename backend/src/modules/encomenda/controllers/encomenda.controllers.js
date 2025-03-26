@@ -61,8 +61,8 @@ class EncomendaController {
     static async listarPorId(requesicao, resposta) {
         try {
             const id = requesicao.params.id
-            const aluno = await EncomendaModel.listarPorMatricula(id)
-            if (endomenda.length === 0) {
+            const encomenda = await EncomendaModel.listarPorId(id)
+            if (encomenda.length === 0) {
                 return resposta.status(201).json({ menssagem: "Encomenda não encontrada!"})
             }
             resposta.status(200).json(aluno)
