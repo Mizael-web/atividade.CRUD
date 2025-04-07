@@ -1,7 +1,8 @@
-const express = require('express')
-const EnderecoController = require('../../../modules/endereco/controllers/endereco.controllers')
+const express = require('express');
 
-const router = express.Router()
+const EnderecoController = require('../controllers/endereco.controllers');
+
+const router = express.Router();
 
 // Buscar todos enderecos http://localhost:3000/endereco
 router.get('/endereco', EnderecoController.listarEnderecos)
@@ -18,7 +19,7 @@ router.get('/endereco/destinatario/:id', EnderecoController.listarEnderecoDestin
 // Criar endereco destinatario http://localhost:3000/endereco
 router.post('/endereco', EnderecoController.criarEndereco)
 
-// Editar endereco distinatario por id http://localhost:3000/endereco/a1234
-router.put('/endereco', EnderecoController.editarEndereco)
+// Editar endereco destinatario por id http://localhost:3000/endereco/a1234
+router.put('/endereco/:id', EnderecoController.editarEnderecoDestinatario)
 
 module.exports = router

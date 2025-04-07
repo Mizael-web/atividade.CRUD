@@ -1,4 +1,4 @@
-const DestinatarioModel = require("../models/destinatario.models")
+const DestinatarioModel = require("../controllers/destinatario.controllers")
 
 
 // get =listar, post = criar, put=atualizar, delete = excluir

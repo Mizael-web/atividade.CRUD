@@ -1,5 +1,5 @@
-const axios = require('axios')
-const { pool } = require('../../../config/database')
+const axios = require ("axios")
+const { pool } = require("../../../config/database")
 
 class EnderecoModel{
     static async criarEndereco(id, cep, rua){ // 0000000
@@ -54,7 +54,7 @@ class EnderecoModel{
     }
     static async listarEnderecoCidade(cidade){
         const dados = [`%${cidade}%`]
-        const consulta = `select * from endereco where lower(localidade) like lower($1)`
+        const consulta = `select * from endereco where (loclizado) lower like lower($1)`
         const resultado = await pool.query(consulta, dados)
         return resultado.rows
     }

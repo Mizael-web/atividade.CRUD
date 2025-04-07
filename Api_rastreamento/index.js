@@ -1,9 +1,9 @@
 
 const express = require ("express");
 const dotenv  = require ("dotenv");
-const routesDestinatario = require('./src/modules/destinatario/routes/destinatario.rout');
-const routerRemetente = require ('./src/modules/remetente/routes/remetente.rout')
-const routerEndereco = require ('./src/modules/endereco/routes/endereco.router')
+const routerDestinatario = require ("./src/modules/destinatario/routes/destinatario.rout");
+const routerRemetente = require ('./src/modules/remetente/routes/remetente.rout');
+const routerEndereco = require ('./src/modules/endereco/routes/endereco.rout');
 
 // configurando a biblioteca dotenv
 dotenv.config();
@@ -17,9 +17,10 @@ app.use(express.json());
 
 
 // concatenação das rotas com o api
-app.use(routesDestinatario)
-app.use(routerRemetente)
-app.use(routerEndereco)
+// registra a rota /endereco
+app.use(routerDestinatario);
+app.use(routerRemetente);
+app.use(routerEndereco);
 
 
   
