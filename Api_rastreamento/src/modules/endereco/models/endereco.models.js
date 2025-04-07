@@ -1,45 +1,43 @@
-const axios = require ("axios")
-const { pool } = require("../../../config/database")
+const axios = require ("axios");
+const { pool } = require("../../../config/database");
 
 class EnderecoModel{
-    static async criarEndereco(id, cep, rua){ // 0000000
+    static async criarEndereco(cep, numero){ // 0000000
         const resposta = await axios.get(`https://viacep.com.br/ws/${cep}/json/`)
         // Desestruturação do objeto 
-        const {numero, bairro, cidade, estado } = resposta.data    
+        const {logradouro, bairro, localidade, uf } = resposta.data    
 
         // Montando o array para a query
         const dados = [
-            id,
             cep,
-            rua, // posicao 2
+            logradouro, 
             numero,         
             bairro, 
-            cidade, 
-            estado,             
+            localidade, 
+            uf            
         ]
 
-        const consulta = `insert into endereco(id, cep, rua, numero, bairro, cidade, estado )
-        values($1,$2,$3,$4,$5,$6,$7) returning *
+        const consulta = `insert into endereco(cep, logradouro, numero, bairro, localidade, uf )
+        values($1,$2,$3,$4,$5,$6) returning *
         `
         const resultado = await pool.query(consulta, dados)
         return resultado.rows
     }
-    static async editarEndereco(id, cep, rua){
+    static async editarEndereco(cep, numero){
         const resposta = await axios.get(`https://viacep.com.br/ws/${cep}/json/`)
-        const { numero, bairro, cidade, estado} = resposta.data
+        const {logradouro, bairro, localidade, uf} = resposta.data
         const dados = [
-            id,
             cep,
-            rua, // posicao 2
+            logradouro,
             numero,         
             bairro, 
-            cidade, 
-            estado,             
+            localidade, 
+            uf,             
         ]
        
         
-        const consulta = `insert into endereco(id, cep, rua, numero, bairro, cidade, estado )
-        values($1,$2,$3,$4,$5,$6,$7) returning *
+        const consulta = `insert into endereco(cep, logradouro, numero, bairro, localidade, uf )
+        values($1,$2,$3,$4,$5,$6) returning *
         `
 
         const resultado = await pool.query(consulta, dados)
@@ -54,7 +52,7 @@ class EnderecoModel{
     }
     static async listarEnderecoCidade(cidade){
         const dados = [`%${cidade}%`]
-        const consulta = `select * from endereco where (loclizado) lower like lower($1)`
+        const consulta = `select * from endereco where (localidade) lower like lower($1)`
         const resultado = await pool.query(consulta, dados)
         return resultado.rows
     }
@@ -73,8 +71,6 @@ class EnderecoModel{
         const resultado = await pool.query(consulta, dados)
         return resultado.rows
     } 
-
-
 }
 
 module.exports = EnderecoModel
